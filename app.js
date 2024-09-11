@@ -5,13 +5,14 @@ const { trxTypeDefs, trxResolver } = require('./schema/trx');
 const { walletTypeDefs, walletResolver } = require('./schema/wallet');
 const { verifyToken } = require('./helpers/jwt');
 const User = require('./models/user');
+const PORT = process.env.PORT || 3000
 
 // Define the server configuration and schema
-const createApolloServer = async (listenOptions = { port: 4000 }) => {
+const createApolloServer = async (listenOptions = { port: PORT }) => {
   const server = new ApolloServer({
     typeDefs: [userTypeDefs, trxTypeDefs, walletTypeDefs],
     resolvers: [userResolver, trxResolver, walletResolver],
-    // introspection: true,
+    introspection: true,
   });
 
   const { url } = await startStandaloneServer(server, {
